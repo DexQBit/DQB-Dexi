@@ -13,16 +13,22 @@ jobs:
         include:
           - service: web
             dockerfile: apps/web/Dockerfile.web
+            context: .
           - service: space
             dockerfile: apps/space/Dockerfile.space
+            context: .
           - service: admin
             dockerfile: apps/admin/Dockerfile.admin
+            context: .
           - service: live
             dockerfile: apps/live/Dockerfile.live
+            context: .
           - service: backend
             dockerfile: apps/api/Dockerfile.api
+            context: .
           - service: proxy
-            dockerfile: apps/proxy/Dockerfile.ce
+            dockerfile: Dockerfile.ce
+            context: apps/proxy
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -33,7 +39,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ghcr.io/dexqbit/dqb-dexi-${{ matrix.service }}:${{ github.ref_name }}
