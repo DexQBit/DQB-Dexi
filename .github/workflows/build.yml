@@ -27,7 +27,7 @@ jobs:
             dockerfile: apps/api/Dockerfile.api
             context: .
           - service: proxy
-            dockerfile: Dockerfile.ce
+            dockerfile: apps/proxy/Dockerfile.ce
             context: apps/proxy
     steps:
       - uses: actions/checkout@v4
