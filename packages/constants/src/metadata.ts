@@ -4,14 +4,13 @@
  * See the LICENSE file for details.
  */
 
-export const SITE_NAME = "Plane | Simple, extensible, open-source project management tool.";
-export const SITE_TITLE = "Plane | Simple, extensible, open-source project management tool.";
+export const SITE_NAME = "Dexi | Simple, extensible project management by DexQBit.";
+export const SITE_TITLE = "Dexi | Simple, extensible project management by DexQBit.";
 export const SITE_DESCRIPTION =
-  "Open-source project management tool to manage work items, cycles, and product roadmaps easily";
-export const SITE_KEYWORDS =
-  "software development, plan, ship, software, accelerate, code management, release management, project management, work items tracking, agile, scrum, kanban, collaboration";
-export const SITE_URL = "https://app.plane.so/";
-export const TWITTER_USER_NAME = "Plane | Simple, extensible, open-source project management tool.";
+  "Dexi is DexQBit's project management tool to manage work items, cycles, and roadmaps easily";
+export const SITE_KEYWORDS = "DexQBit, Dexi, project management, work items, agile, scrum, kanban";
+export const SITE_URL = "https://dexi.dexqbit.com/";
+export const TWITTER_USER_NAME = "Dexi by DexQBit";
 
 // Plane Sites Metadata
 export const SPACE_SITE_NAME = "Plane Publish | Make your Plane boards and roadmaps pubic with just one-click. ";
