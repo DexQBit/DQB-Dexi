@@ -1,7 +1,7 @@
 name: Build and Push to GHCR
 on:
   push:
-    tags: ["v*"]
+    tags: ["dqb-*"]
 permissions:
   contents: read
   packages: write
