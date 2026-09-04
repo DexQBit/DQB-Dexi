@@ -36,4 +36,4 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ghcr.io/DexQBit/DQB-Dexi-${{ matrix.service }}:${{ github.ref_name }}
+          tags: ghcr.io/dexqbit/dqb-dexi-${{ matrix.service }}:${{ github.ref_name }}
