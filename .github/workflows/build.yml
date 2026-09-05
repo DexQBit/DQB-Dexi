@@ -1,45 +1,63 @@
 name: Build and Push to GHCR
+
 on:
   push:
     tags: ["dqb-*"]
+
 permissions:
   contents: read
   packages: write
+  actions: write # required for cache-to: type=gha
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
+          # Frontend apps need the monorepo root (turbo prune + workspace packages)
           - service: web
-            dockerfile: apps/web/Dockerfile.web
+            dockerfile: ./apps/web/Dockerfile.web
             context: .
           - service: space
-            dockerfile: apps/space/Dockerfile.space
+            dockerfile: ./apps/space/Dockerfile.space
             context: .
           - service: admin
-            dockerfile: apps/admin/Dockerfile.admin
+            dockerfile: ./apps/admin/Dockerfile.admin
             context: .
           - service: live
-            dockerfile: apps/live/Dockerfile.live
+            dockerfile: ./apps/live/Dockerfile.live
             context: .
+          # API / proxy Dockerfiles COPY paths relative to their own app dirs
           - service: backend
-            dockerfile: apps/api/Dockerfile.api
-            context: .
+            dockerfile: ./apps/api/Dockerfile.api
+            context: ./apps/api
           - service: proxy
-            dockerfile: apps/proxy/Dockerfile.ce
-            context: apps/proxy
+            dockerfile: ./apps/proxy/Dockerfile.ce
+            context: ./apps/proxy
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ghcr.io/dexqbit/dqb-dexi-${{ matrix.service }}:${{ github.ref_name }}
+          # Avoid Node-20-era action runtimes; provenance attestations are optional for GHCR tags
+          provenance: false
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
