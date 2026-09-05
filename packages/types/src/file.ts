@@ -25,14 +25,17 @@ export type TFileSignedURLResponse = {
   asset_url: string;
   upload_data: {
     url: string;
+    /** POST = S3/MinIO form upload; PUT = R2 and other S3 backends without POST Object */
+    method?: "POST" | "PUT";
     fields: {
       "Content-Type": string;
-      key: string;
-      "x-amz-algorithm": string;
-      "x-amz-credential": string;
-      "x-amz-date": string;
-      policy: string;
-      "x-amz-signature": string;
+      key?: string;
+      "x-amz-algorithm"?: string;
+      "x-amz-credential"?: string;
+      "x-amz-date"?: string;
+      policy?: string;
+      "x-amz-signature"?: string;
+      [key: string]: string | undefined;
     };
   };
 };

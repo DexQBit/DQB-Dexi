@@ -63,9 +63,36 @@ class S3Storage(S3Boto3Storage):
             )
 
     def generate_presigned_post(self, object_name, file_type, file_size, expiration=None):
-        """Generate a presigned URL to upload an S3 object"""
+        """Generate upload credentials for an S3-compatible object.
+
+        MinIO supports S3 HTML form POST uploads. Cloudflare R2 does not
+        (returns 501 Not Implemented), so non-MinIO backends get a presigned PUT.
+        """
         if expiration is None:
             expiration = self.signed_url_expiration
+
+        # R2 and most S3 providers: browser uploads must use PUT Object
+        if os.environ.get("USE_MINIO") != "1":
+            try:
+                url = self.s3_client.generate_presigned_url(
+                    ClientMethod="put_object",
+                    Params={
+                        "Bucket": self.aws_storage_bucket_name,
+                        "Key": object_name,
+                        "ContentType": file_type,
+                    },
+                    ExpiresIn=expiration,
+                )
+            except ClientError as e:
+                print(f"Error generating presigned PUT URL: {e}")
+                return None
+
+            return {
+                "url": url,
+                "fields": {"Content-Type": file_type, "key": object_name},
+                "method": "PUT",
+            }
+
         fields = {"Content-Type": file_type}
 
         conditions = [
@@ -81,9 +108,8 @@ class S3Storage(S3Boto3Storage):
             fields["key"] = object_name
             conditions.append({"key": object_name})
 
-        # Generate the presigned POST URL
+        # Generate the presigned POST URL (MinIO)
         try:
-            # Generate a presigned URL for the S3 object
             response = self.s3_client.generate_presigned_post(
                 Bucket=self.aws_storage_bucket_name,
                 Key=object_name,
@@ -91,11 +117,11 @@ class S3Storage(S3Boto3Storage):
                 Conditions=conditions,
                 ExpiresIn=expiration,
             )
-        # Handle errors
         except ClientError as e:
             print(f"Error generating presigned POST URL: {e}")
             return None
 
+        response["method"] = "POST"
         return response
 
     def _get_content_disposition(self, disposition, filename=None):

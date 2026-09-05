@@ -58,6 +58,8 @@ class TestS3StorageSignedURLExpiration:
             "AWS_SECRET_ACCESS_KEY": "test-secret",
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
+            "USE_MINIO": "1",
+            "AWS_S3_ENDPOINT_URL": "http://localhost:9000",
         },
         clear=True,
     )
@@ -91,6 +93,8 @@ class TestS3StorageSignedURLExpiration:
             "AWS_S3_BUCKET_NAME": "test-bucket",
             "AWS_REGION": "us-east-1",
             "SIGNED_URL_EXPIRATION": "60",
+            "USE_MINIO": "1",
+            "AWS_S3_ENDPOINT_URL": "http://localhost:9000",
         },
         clear=True,
     )
@@ -115,6 +119,34 @@ class TestS3StorageSignedURLExpiration:
         mock_s3_client.generate_presigned_post.assert_called_once()
         call_kwargs = mock_s3_client.generate_presigned_post.call_args[1]
         assert call_kwargs["ExpiresIn"] == 60
+
+    @patch.dict(
+        os.environ,
+        {
+            "AWS_ACCESS_KEY_ID": "test-key",
+            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_S3_BUCKET_NAME": "test-bucket",
+            "AWS_REGION": "auto",
+            "USE_MINIO": "0",
+        },
+        clear=True,
+    )
+    @patch("plane.settings.storage.boto3")
+    def test_generate_presigned_post_uses_put_when_not_minio(self, mock_boto3):
+        """Non-MinIO backends (e.g. R2) must use presigned PUT, not form POST."""
+        mock_s3_client = Mock()
+        mock_s3_client.generate_presigned_url.return_value = "https://r2.example/put"
+        mock_boto3.client.return_value = mock_s3_client
+
+        storage = S3Storage()
+        result = storage.generate_presigned_post("test-object", "image/png", 1024)
+
+        mock_s3_client.generate_presigned_post.assert_not_called()
+        mock_s3_client.generate_presigned_url.assert_called_once()
+        call_kwargs = mock_s3_client.generate_presigned_url.call_args[1]
+        assert call_kwargs["ClientMethod"] == "put_object"
+        assert result["method"] == "PUT"
+        assert result["url"] == "https://r2.example/put"
 
     @patch.dict(
         os.environ,

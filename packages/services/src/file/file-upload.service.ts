@@ -6,7 +6,9 @@
 
 import axios from "axios";
 // api service
+import type { TFileSignedURLResponse } from "@plane/types";
 import { APIService } from "../api.service";
+import { generateFileUploadPayload, isPresignedPutUpload } from "./helper";
 
 /**
  * Service class for handling file upload operations
@@ -21,18 +23,32 @@ export class FileUploadService extends APIService {
   }
 
   /**
-   * Uploads a file to the specified signed URL
-   * @param {string} url - The URL to upload the file to
-   * @param {FormData} data - The form data to upload
-   * @returns {Promise<void>} Promise resolving to void
-   * @throws {Error} If the request fails
+   * Upload a file using the signed upload credentials from the API.
+   * Uses PUT for R2/S3 (no POST Object support on R2) and form POST for MinIO.
    */
-  async uploadFile(url: string, data: FormData): Promise<void> {
+  async uploadFile(signedURLResponse: TFileSignedURLResponse, file: File): Promise<void> {
     this.cancelSource = axios.CancelToken.source();
-    return this.post(url, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    const { url, fields } = signedURLResponse.upload_data;
+
+    if (isPresignedPutUpload(signedURLResponse)) {
+      const contentType = fields["Content-Type"] || file.type || "application/octet-stream";
+      return this.put(url, file, {
+        headers: { "Content-Type": contentType },
+        cancelToken: this.cancelSource.token,
+        withCredentials: false,
+      })
+        .then((response) => response?.data)
+        .catch((error) => {
+          if (axios.isCancel(error)) {
+            console.log(error.message);
+          } else {
+            throw error?.response?.data;
+          }
+        });
+    }
+
+    const formData = generateFileUploadPayload(signedURLResponse, file);
+    return this.post(url, formData, {
       cancelToken: this.cancelSource.token,
       withCredentials: false,
     })

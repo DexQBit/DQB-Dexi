@@ -57,10 +57,18 @@ const validateFilename = (filename: string): string | null => {
  */
 export const generateFileUploadPayload = (signedURLResponse: TFileSignedURLResponse, file: File): FormData => {
   const formData = new FormData();
-  Object.entries(signedURLResponse.upload_data.fields).forEach(([key, value]) => formData.append(key, value));
+  Object.entries(signedURLResponse.upload_data.fields).forEach(([key, value]) => {
+    if (value !== undefined) formData.append(key, value);
+  });
   formData.append("file", file);
   return formData;
 };
+
+/**
+ * @description whether the signed upload should use HTTP PUT (R2) instead of form POST (MinIO)
+ */
+export const isPresignedPutUpload = (signedURLResponse: TFileSignedURLResponse): boolean =>
+  signedURLResponse.upload_data.method === "PUT";
 
 /**
  * @description Detect MIME type from file signature using file-type library

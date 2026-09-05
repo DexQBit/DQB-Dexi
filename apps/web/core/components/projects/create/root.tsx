@@ -64,39 +64,38 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
     // Upper case identifier
     formData.identifier = formData.identifier?.toUpperCase();
     const coverImage = formData.cover_image_url;
-    let uploadedAssetUrl: string | null = null;
+    const coverImageType = coverImage ? getCoverImageType(coverImage) : null;
 
-    if (coverImage) {
-      const imageType = getCoverImageType(coverImage);
-
-      if (imageType === "local_static") {
-        try {
-          uploadedAssetUrl = await uploadCoverImage(coverImage, {
-            workspaceSlug: workspaceSlug.toString(),
-            entityIdentifier: "",
-            entityType: EFileAssetType.PROJECT_COVER,
-            isUserAsset: false,
-          });
-        } catch (error) {
-          console.error("Error uploading cover image:", error);
-          setToast({
-            type: TOAST_TYPE.ERROR,
-            title: t("toast.error"),
-            message: error instanceof Error ? error.message : "Failed to upload cover image",
-          });
-          return Promise.reject(error);
-        }
-      } else {
-        formData.cover_image = coverImage;
-        formData.cover_image_asset = null;
-      }
+    // Upload static covers only after the project exists (needs a real project ID).
+    if (coverImageType === "local_static") {
+      formData.cover_image = null;
+      formData.cover_image_url = null;
+      formData.cover_image_asset = null;
+    } else if (coverImage) {
+      formData.cover_image = coverImage;
+      formData.cover_image_asset = null;
     }
 
     return createProject(workspaceSlug.toString(), formData)
       .then(async (res) => {
-        if (uploadedAssetUrl) {
-          await updateCoverImageStatus(res.id, uploadedAssetUrl);
-          await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: uploadedAssetUrl });
+        if (coverImage && coverImageType === "local_static") {
+          try {
+            const uploadedAssetUrl = await uploadCoverImage(coverImage, {
+              workspaceSlug: workspaceSlug.toString(),
+              entityIdentifier: res.id,
+              entityType: EFileAssetType.PROJECT_COVER,
+              isUserAsset: false,
+            });
+            await updateCoverImageStatus(res.id, uploadedAssetUrl);
+            await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: uploadedAssetUrl });
+          } catch (error) {
+            console.error("Error uploading cover image:", error);
+            setToast({
+              type: TOAST_TYPE.ERROR,
+              title: t("toast.error"),
+              message: error instanceof Error ? error.message : "Failed to upload cover image",
+            });
+          }
         } else if (coverImage && coverImage.startsWith("http")) {
           await updateCoverImageStatus(res.id, coverImage);
           await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: coverImage });
