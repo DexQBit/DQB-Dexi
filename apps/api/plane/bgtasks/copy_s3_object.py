@@ -20,6 +20,8 @@ from plane.utils.url import normalize_url_path
 
 
 def get_entity_id_field(entity_type, entity_id):
+    if not entity_id:
+        return {}
     entity_mapping = {
         FileAsset.EntityTypeContext.WORKSPACE_LOGO: {"workspace_id": entity_id},
         FileAsset.EntityTypeContext.PROJECT_COVER: {"project_id": entity_id},

@@ -79,10 +79,15 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
           });
         } catch (error) {
           console.error("Error uploading cover image:", error);
+          const apiMessage =
+            error && typeof error === "object" && "error" in error
+              ? String((error as { error?: unknown }).error)
+              : undefined;
           setToast({
             type: TOAST_TYPE.ERROR,
             title: t("toast.error"),
-            message: error instanceof Error ? error.message : "Failed to upload cover image",
+            message:
+              apiMessage || (error instanceof Error ? error.message : "Failed to upload cover image"),
           });
           return Promise.reject(error);
         }
