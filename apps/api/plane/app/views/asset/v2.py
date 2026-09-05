@@ -204,11 +204,6 @@ class WorkspaceFileAssetEndpoint(BaseAPIView):
     """This endpoint is used to upload cover images/logos etc for workspace, projects and users."""
 
     def get_entity_id_field(self, entity_type, entity_id):
-        # Project covers (and similar) may be uploaded before the entity exists;
-        # empty/falsey IDs must not be written to UUID foreign keys.
-        if not entity_id:
-            return {}
-
         # Workspace Logo
         if entity_type == FileAsset.EntityTypeContext.WORKSPACE_LOGO:
             return {"workspace_id": entity_id}
@@ -348,8 +343,7 @@ class WorkspaceFileAssetEndpoint(BaseAPIView):
         type = request.data.get("type", "image/jpeg")
         size = int(request.data.get("size", settings.FILE_SIZE_LIMIT))
         entity_type = request.data.get("entity_type")
-        # Empty string is sent during project creation before a project ID exists
-        entity_identifier = request.data.get("entity_identifier") or None
+        entity_identifier = request.data.get("entity_identifier", False)
 
         # Check if the entity type is allowed
         if entity_type not in FileAsset.EntityTypeContext.values:
@@ -555,9 +549,6 @@ class ProjectAssetEndpoint(BaseAPIView):
     """This endpoint is used to upload cover images/logos etc for workspace, projects and users."""
 
     def get_entity_id_field(self, entity_type, entity_id):
-        if not entity_id:
-            return {}
-
         if entity_type == FileAsset.EntityTypeContext.WORKSPACE_LOGO:
             return {"workspace_id": entity_id}
 
@@ -592,7 +583,7 @@ class ProjectAssetEndpoint(BaseAPIView):
         type = request.data.get("type", "image/jpeg")
         size = int(request.data.get("size", settings.FILE_SIZE_LIMIT))
         entity_type = request.data.get("entity_type", "")
-        entity_identifier = request.data.get("entity_identifier") or None
+        entity_identifier = request.data.get("entity_identifier")
 
         # Check if the entity type is allowed
         if entity_type not in FileAsset.EntityTypeContext.values:
@@ -789,9 +780,6 @@ class DuplicateAssetEndpoint(BaseAPIView):
     throttle_classes = [AssetRateThrottle]
 
     def get_entity_id_field(self, entity_type, entity_id):
-        if not entity_id:
-            return {}
-
         # Workspace Logo
         if entity_type == FileAsset.EntityTypeContext.WORKSPACE_LOGO:
             return {"workspace_id": entity_id}
