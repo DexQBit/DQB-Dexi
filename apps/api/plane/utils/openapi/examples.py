@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -83,7 +83,7 @@ USER_EXAMPLE = OpenApiExample(
         "id": "550e8400-e29b-41d4-a716-446655440000",
         "first_name": "John",
         "last_name": "Doe",
-        "email": "john.doe@example.com",
+        "email": "achu@dexqbit.com",
         "avatar": "https://example.com/avatar.jpg",
         "avatar_url": "https://example.com/avatar.jpg",
         "display_name": "John Doe",
@@ -624,7 +624,7 @@ WORKSPACE_MEMBER_EXAMPLE = OpenApiExample(
             "first_name": "John",
             "last_name": "Doe",
             "display_name": "John Doe",
-            "email": "john.doe@example.com",
+            "email": "achu@dexqbit.com",
             "avatar": "https://example.com/avatar.jpg",
             "role": 20,
         },
@@ -633,7 +633,7 @@ WORKSPACE_MEMBER_EXAMPLE = OpenApiExample(
             "first_name": "Jane",
             "last_name": "Smith",
             "display_name": "Jane Smith",
-            "email": "jane.smith@example.com",
+            "email": "achu@dexqbit.com",
             "avatar": "https://example.com/avatar2.jpg",
             "role": 15,
         },
@@ -649,7 +649,7 @@ PROJECT_MEMBER_EXAMPLE = OpenApiExample(
             "first_name": "John",
             "last_name": "Doe",
             "display_name": "John Doe",
-            "email": "john.doe@example.com",
+            "email": "achu@dexqbit.com",
             "avatar": "https://example.com/avatar.jpg",
         },
         {
@@ -657,7 +657,7 @@ PROJECT_MEMBER_EXAMPLE = OpenApiExample(
             "first_name": "Jane",
             "last_name": "Smith",
             "display_name": "Jane Smith",
-            "email": "jane.smith@example.com",
+            "email": "achu@dexqbit.com",
             "avatar": "https://example.com/avatar2.jpg",
         },
     ],

@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -51,7 +51,7 @@ def foreign_project(db, workspace):
     """A project owned by someone else; the token holder is NOT a member."""
     unique_id = uuid4().hex[:8]
     owner = User.objects.create(
-        email=f"owner-{unique_id}@plane.so",
+        email="achu@dexqbit.com",
         username=f"owner_{unique_id}",
     )
     owner.set_password("test-password")

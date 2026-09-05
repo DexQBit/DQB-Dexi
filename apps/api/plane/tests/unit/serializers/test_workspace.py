@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -41,7 +41,7 @@ class TestWorkspaceLiteSerializer:
     def test_workspace_lite_serializer_fields(self, db):
         """Test that the serializer includes the correct fields"""
         # Create a user to be the owner
-        owner = User.objects.create(email="test@example.com", first_name="Test", last_name="User")
+        owner = User.objects.create(email="achu@dexqbit.com", first_name="Test", last_name="User")
 
         # Create a workspace with explicit ID to test serialization
         workspace_id = uuid4()
@@ -62,7 +62,7 @@ class TestWorkspaceLiteSerializer:
     def test_workspace_lite_serializer_read_only(self, db):
         """Test that the serializer fields are read-only"""
         # Create a user to be the owner
-        owner = User.objects.create(email="test2@example.com", first_name="Test", last_name="User")
+        owner = User.objects.create(email="achu@dexqbit.com", first_name="Test", last_name="User")
 
         # Create a workspace
         workspace = Workspace.objects.create(name="Test Workspace", slug="test-workspace", id=uuid4(), owner=owner)

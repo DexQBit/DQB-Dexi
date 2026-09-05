@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -52,7 +52,7 @@ def guest(db, workspace, project):
     """An active project GUEST (role=5)."""
     unique_id = uuid4().hex[:8]
     user = User.objects.create(
-        email=f"guest-{unique_id}@plane.so",
+        email="achu@dexqbit.com",
         username=f"guest_{unique_id}",
         first_name="Guest",
         last_name="User",

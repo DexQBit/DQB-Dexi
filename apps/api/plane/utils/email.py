@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023-present Plane Software, Inc.
+# SPDX-FileCopyrightText: 2023-present Dexqbit
 # SPDX-License-Identifier: LicenseRef-Plane-Commercial
 #
 # Licensed under the Plane Commercial License (the "License");

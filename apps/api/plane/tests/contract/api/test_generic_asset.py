@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -25,7 +25,7 @@ def victim_user(db):
     """A user that owns a separate workspace the attacker is not part of."""
     unique_id = uuid4().hex[:8]
     user = User.objects.create(
-        email=f"victim-{unique_id}@plane.so",
+        email="achu@dexqbit.com",
         username=f"victim_{unique_id}",
         first_name="Victim",
         last_name="User",

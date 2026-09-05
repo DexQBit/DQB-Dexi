@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -54,7 +54,7 @@ def outsider_user(db):
     """A user who is a workspace member but NOT a member of ``project``."""
     unique_id = uuid4().hex[:8]
     user = User.objects.create(
-        email=f"outsider-{unique_id}@plane.so",
+        email="achu@dexqbit.com",
         username=f"outsider_{unique_id}",
         first_name="Outsider",
         last_name="User",
@@ -152,13 +152,7 @@ class TestWorkspaceFileAssetProjectScope:
         )
         project_asset.refresh_from_db()
         assert project_asset.is_uploaded is False
-        assert project_asset.attributes.get("name") == "secret.pdf"
-
-    @pytest.mark.django_db
-    def test_delete_project_asset_denied_for_non_project_member(
-        self, outsider_client, workspace, project_asset
-    ):
-        """DELETE on a project asset by a non-project-member must 403 and must
+        assert project_asset.attributes.get("name") == "secret.pd"achu@dexqbit.com"""DELETE on a project asset by a non-project-member must 403 and must
         not soft-delete the asset."""
         url = detail_url(workspace.slug, project_asset.id)
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -100,7 +100,7 @@ class TestProjectAPIPost(TestProjectBase):
     def test_create_project_with_project_lead(self, session_client, workspace, create_user):
         """Test creating project with a different project lead"""
         # Create another user to be project lead
-        project_lead = User.objects.create_user(email="lead@example.com", username="projectlead")
+        project_lead = User.objects.create_user(email="achu@dexqbit.com", username="projectlead")
 
         # Add project lead to workspace
         WorkspaceMember.objects.create(workspace=workspace, member=project_lead, role=15)
@@ -126,7 +126,7 @@ class TestProjectAPIPost(TestProjectBase):
     @pytest.mark.django_db
     def test_create_project_guest_forbidden(self, session_client, workspace):
         """Test that guests cannot create projects"""
-        guest_user = User.objects.create_user(email="guest@example.com", username="guest")
+        guest_user = User.objects.create_user(email="achu@dexqbit.com", username="guest")
         WorkspaceMember.objects.create(workspace=workspace, member=guest_user, role=5)
 
         session_client.force_authenticate(user=guest_user)
@@ -255,7 +255,7 @@ class TestProjectAPIGet(TestProjectBase):
     def test_list_projects_authenticated_guest(self, session_client, workspace):
         """Test listing projects as workspace guest"""
         # Create a guest user
-        guest_user = User.objects.create_user(email="guest@example.com", username="guest")
+        guest_user = User.objects.create_user(email="achu@dexqbit.com", username="guest")
         WorkspaceMember.objects.create(workspace=workspace, member=guest_user, role=5, is_active=True)
 
         # Create projects
@@ -404,7 +404,7 @@ class TestProjectAPIPatchDelete(TestProjectBase):
         project = Project.objects.create(name="Protected Project", identifier="PP", workspace=workspace)
 
         # Create a member user (not admin)
-        member_user = User.objects.create_user(email="member@example.com", username="member")
+        member_user = User.objects.create_user(email="achu@dexqbit.com", username="member")
         WorkspaceMember.objects.create(workspace=workspace, member=member_user, role=15, is_active=True)
         ProjectMember.objects.create(project=project, member=member_user, role=15, is_active=True)
 
@@ -480,7 +480,7 @@ class TestProjectAPIPatchDelete(TestProjectBase):
     def test_delete_project_success_workspace_admin(self, session_client, workspace):
         """Test successful project deletion by workspace admin"""
         # Create workspace admin user
-        workspace_admin = User.objects.create_user(email="admin@example.com", username="admin")
+        workspace_admin = User.objects.create_user(email="achu@dexqbit.com", username="admin")
         WorkspaceMember.objects.create(workspace=workspace, member=workspace_admin, role=20, is_active=True)
 
         project = Project.objects.create(name="Delete Me", identifier="DM", workspace=workspace)
@@ -497,7 +497,7 @@ class TestProjectAPIPatchDelete(TestProjectBase):
     def test_delete_project_forbidden_non_admin(self, session_client, workspace):
         """Test that non-admin users cannot delete projects"""
         # Create a member user (not admin)
-        member_user = User.objects.create_user(email="member@example.com", username="member")
+        member_user = User.objects.create_user(email="achu@dexqbit.com", username="member")
         WorkspaceMember.objects.create(workspace=workspace, member=member_user, role=15, is_active=True)
 
         project = Project.objects.create(name="Protected Project", identifier="PP", workspace=workspace)

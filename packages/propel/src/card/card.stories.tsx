@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * Copyright (c) 2023-present Dexqbit and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  */
@@ -137,7 +137,7 @@ export const UserCard: Story = {
         <div className="flex-1">
           <h3 className="text-16 font-semibold">John Doe</h3>
           <p className="text-gray-600 text-13">Software Engineer</p>
-          <p className="text-gray-500 text-11">john.doe@example.com</p>
+          <p className="text-gray-500 text-11">achu@dexqbit.com</p>
         </div>
       </>
     ),

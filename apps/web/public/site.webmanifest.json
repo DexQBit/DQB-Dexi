@@ -1,7 +1,7 @@
 {
   "name": "Dexi",
   "short_name": "Dexi",
-  "description": "Dexi helps DexQBit plan work items, cycles, and product modules.",
+  "description": "Dexi helps Dexqbit plan work items, cycles, and product modules.",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#f9fafb",

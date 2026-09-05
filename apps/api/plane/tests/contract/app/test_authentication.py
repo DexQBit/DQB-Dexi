@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -81,7 +81,7 @@ class TestMagicLinkGenerate:
     @pytest.fixture
     def setup_user(self, db):
         """Create a test user for magic link tests"""
-        user = User.objects.create(email="user@plane.so")
+        user = User.objects.create(email="achu@dexqbit.com")
         user.set_password("user@123")
         user.save()
         return user
@@ -118,16 +118,16 @@ class TestMagicLinkGenerate:
         url = reverse("magic-generate")
 
         ri = redis_instance()
-        ri.delete("magic_user@plane.so")
+        ri.delete("achu@dexqbit.com")
 
-        response = api_client.post(url, {"email": "user@plane.so"}, format="json")
+        response = api_client.post(url, {"email": "achu@dexqbit.com"}, format="json")
         assert response.status_code == status.HTTP_200_OK
         assert "key" in response.data  # Check for key in response
 
         # Verify the mock was called with the expected arguments
         mock_magic_link.assert_called_once()
         args = mock_magic_link.call_args[0]
-        assert args[0] == "user@plane.so"  # First arg should be the email
+        assert args[0] == "achu@dexqbit.com"  # First arg should be the email
 
     @pytest.mark.django_db
     @patch("plane.bgtasks.magic_link_code_task.magic_link.delay")
@@ -136,12 +136,12 @@ class TestMagicLinkGenerate:
         url = reverse("magic-generate")
 
         ri = redis_instance()
-        ri.delete("magic_user@plane.so")
+        ri.delete("achu@dexqbit.com")
 
         for _ in range(4):
-            api_client.post(url, {"email": "user@plane.so"}, format="json")
+            api_client.post(url, {"email": "achu@dexqbit.com"}, format="json")
 
-        response = api_client.post(url, {"email": "user@plane.so"}, format="json")
+        response = api_client.post(url, {"email": "achu@dexqbit.com"}, format="json")
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "error_code" in response.data  # Check for error code in response
 
@@ -153,7 +153,7 @@ class TestSignInEndpoint:
     @pytest.fixture
     def setup_user(self, db):
         """Create a test user for authentication tests"""
-        user = User.objects.create(email="user@plane.so")
+        user = User.objects.create(email="achu@dexqbit.com")
         user.set_password("user@123")
         user.save()
         return user
@@ -180,7 +180,7 @@ class TestSignInEndpoint:
     def test_user_exists(self, django_client, setup_user, setup_instance):
         """Test sign-in with non-existent user"""
         url = reverse("sign-in")
-        response = django_client.post(url, {"email": "user@email.so", "password": "user123"}, follow=True)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "password": "user123"}, follow=True)
 
         # Check redirect contains error code
         assert "USER_DOES_NOT_EXIST" in response.redirect_chain[-1][0]
@@ -189,7 +189,7 @@ class TestSignInEndpoint:
     def test_password_validity(self, django_client, setup_user, setup_instance):
         """Test sign-in with incorrect password"""
         url = reverse("sign-in")
-        response = django_client.post(url, {"email": "user@plane.so", "password": "user123"}, follow=True)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "password": "user123"}, follow=True)
 
         # Check for the specific authentication error in the URL
         redirect_urls = [url for url, _ in response.redirect_chain]
@@ -204,7 +204,7 @@ class TestSignInEndpoint:
         url = reverse("sign-in")
 
         # First make the request without following redirects
-        response = django_client.post(url, {"email": "user@plane.so", "password": "user@123"}, follow=False)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "password": "user@123"}, follow=False)
 
         # Check that the initial response is a redirect (302) without error code
         assert response.status_code == 302
@@ -225,7 +225,7 @@ class TestSignInEndpoint:
         # First make the request without following redirects
         response = django_client.post(
             url,
-            {"email": "user@plane.so", "password": "user@123", "next_path": next_path},
+            {"email": "achu@dexqbit.com", "password": "user@123", "next_path": next_path},
             follow=False,
         )
 
@@ -246,7 +246,7 @@ class TestMagicSignIn:
     @pytest.fixture
     def setup_user(self, db):
         """Create a test user for magic sign-in tests"""
-        user = User.objects.create(email="user@plane.so")
+        user = User.objects.create(email="achu@dexqbit.com")
         user.set_password("user@123")
         user.save()
         return user
@@ -264,10 +264,10 @@ class TestMagicSignIn:
     def test_expired_invalid_magic_link(self, django_client, setup_user, setup_instance):
         """Test magic link sign-in with expired/invalid link"""
         ri = redis_instance()
-        ri.delete("magic_user@plane.so")
+        ri.delete("achu@dexqbit.com")
 
         url = reverse("magic-sign-in")
-        response = django_client.post(url, {"email": "user@plane.so", "code": "xxxx-xxxxx-xxxx"}, follow=False)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "xxxx-xxxxx-xxxx"}, follow=False)
 
         # Check that we get a redirect
         assert response.status_code == 302
@@ -282,7 +282,7 @@ class TestMagicSignIn:
         url = reverse("magic-sign-in")
         response = django_client.post(
             url,
-            {"email": "nonexistent@plane.so", "code": "xxxx-xxxxx-xxxx"},
+            {"email": "achu@dexqbit.com", "code": "xxxx-xxxxx-xxxx"},
             follow=True,
         )
 
@@ -295,19 +295,19 @@ class TestMagicSignIn:
         """Test successful magic link sign-in process"""
         # First generate a magic link token
         gen_url = reverse("magic-generate")
-        response = api_client.post(gen_url, {"email": "user@plane.so"}, format="json")
+        response = api_client.post(gen_url, {"email": "achu@dexqbit.com"}, format="json")
 
         # Check that the token generation was successful
         assert response.status_code == status.HTTP_200_OK
 
         # Since we're mocking the magic_link task, we need to manually get the token from Redis
         ri = redis_instance()
-        user_data = json.loads(ri.get("magic_user@plane.so"))
+        user_data = json.loads(ri.get("achu@dexqbit.com"))
         token = user_data["token"]
 
         # Use Django client to test the redirect flow without following redirects
         url = reverse("magic-sign-in")
-        response = django_client.post(url, {"email": "user@plane.so", "code": token}, follow=False)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "code": token}, follow=False)
 
         # Check that the initial response is a redirect without error code
         assert response.status_code == 302
@@ -322,14 +322,14 @@ class TestMagicSignIn:
         """Test magic sign-in with next_path parameter"""
         # First generate a magic link token
         gen_url = reverse("magic-generate")
-        response = api_client.post(gen_url, {"email": "user@plane.so"}, format="json")
+        response = api_client.post(gen_url, {"email": "achu@dexqbit.com"}, format="json")
 
         # Check that the token generation was successful
         assert response.status_code == status.HTTP_200_OK
 
         # Since we're mocking the magic_link task, we need to manually get the token from Redis
         ri = redis_instance()
-        user_data = json.loads(ri.get("magic_user@plane.so"))
+        user_data = json.loads(ri.get("achu@dexqbit.com"))
         token = user_data["token"]
 
         # Use Django client to test the redirect flow without following redirects.
@@ -338,7 +338,7 @@ class TestMagicSignIn:
         next_path = "/workspaces"
         response = django_client.post(
             url,
-            {"email": "user@plane.so", "code": token, "next_path": next_path},
+            {"email": "achu@dexqbit.com", "code": token, "next_path": next_path},
             follow=False,
         )
 
@@ -370,10 +370,10 @@ class TestMagicSignUp:
     def test_user_already_exists(self, django_client, db, setup_instance):
         """Test magic sign-up with existing user"""
         # Create a user that already exists
-        User.objects.create(email="existing@plane.so")
+        User.objects.create(email="achu@dexqbit.com")
 
         url = reverse("magic-sign-up")
-        response = django_client.post(url, {"email": "existing@plane.so", "code": "xxxx-xxxxx-xxxx"}, follow=True)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "xxxx-xxxxx-xxxx"}, follow=True)
 
         # Check redirect contains error code
         assert "USER_ALREADY_EXIST" in response.redirect_chain[-1][0]
@@ -382,7 +382,7 @@ class TestMagicSignUp:
     def test_expired_invalid_magic_link(self, django_client, setup_instance):
         """Test magic link sign-up with expired/invalid link"""
         url = reverse("magic-sign-up")
-        response = django_client.post(url, {"email": "new@plane.so", "code": "xxxx-xxxxx-xxxx"}, follow=False)
+        response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "xxxx-xxxxx-xxxx"}, follow=False)
 
         # Check that we get a redirect
         assert response.status_code == 302
@@ -395,7 +395,7 @@ class TestMagicSignUp:
     @patch("plane.bgtasks.magic_link_code_task.magic_link.delay")
     def test_magic_code_sign_up(self, mock_magic_link, django_client, api_client, setup_instance):
         """Test successful magic link sign-up process"""
-        email = "newuser@plane.so"
+        email = "achu@dexqbit.com"
 
         # First generate a magic link token
         gen_url = reverse("magic-generate")
@@ -427,7 +427,7 @@ class TestMagicSignUp:
     @patch("plane.bgtasks.magic_link_code_task.magic_link.delay")
     def test_magic_sign_up_with_next_path(self, mock_magic_link, django_client, api_client, setup_instance):
         """Test magic sign-up with next_path parameter"""
-        email = "newuser2@plane.so"
+        email = "achu@dexqbit.com"
 
         # First generate a magic link token
         gen_url = reverse("magic-generate")
@@ -473,7 +473,7 @@ def _generate_magic_token(api_client, email):
 class TestMagicSignInVerifyAttempts:
     """Per-token wrong-code attempt counter and exhaustion behavior (GHSA-9pvm-fcf6-9234)."""
 
-    EMAIL = "verify-attempts@plane.so"
+    EMAIL = "achu@dexqbit.com"
 
     @pytest.fixture
     def setup_user(self, db):
@@ -584,7 +584,7 @@ class TestMagicSignInVerifyAttempts:
 class TestMagicSignUpVerifyAttempts:
     """Sign-up flow gets the same per-token attempt cap (no existing User row)."""
 
-    EMAIL = "signup-verify-attempts@plane.so"
+    EMAIL = "achu@dexqbit.com"
 
     @pytest.fixture(autouse=True)
     def _clear_state(self):
@@ -634,12 +634,12 @@ class TestAuthenticationThrottle:
         # Drop the rate so the test doesn't have to fire 10+ requests.
         with patch.object(AuthenticationThrottle, "rate", "2/minute"):
             for _ in range(2):
-                response = django_client.post(url, {"email": "throttle@plane.so", "code": "000000"}, follow=False)
+                response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "000000"}, follow=False)
                 assert response.status_code == 302
                 assert "RATE_LIMIT_EXCEEDED" not in response.url
 
             # The 3rd request from the same IP within the window trips the throttle.
-            response = django_client.post(url, {"email": "throttle@plane.so", "code": "000000"}, follow=False)
+            response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "000000"}, follow=False)
             assert response.status_code == 302
             assert "RATE_LIMIT_EXCEEDED" in response.url
 
@@ -648,10 +648,10 @@ class TestAuthenticationThrottle:
         """The sign-up sibling shares the same scope and trips on the same per-IP budget."""
         url = reverse("magic-sign-up")
         with patch.object(AuthenticationThrottle, "rate", "1/minute"):
-            response = django_client.post(url, {"email": "throttle-up@plane.so", "code": "000000"}, follow=False)
+            response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "000000"}, follow=False)
             assert "RATE_LIMIT_EXCEEDED" not in response.url
 
-            response = django_client.post(url, {"email": "throttle-up@plane.so", "code": "000000"}, follow=False)
+            response = django_client.post(url, {"email": "achu@dexqbit.com", "code": "000000"}, follow=False)
             assert "RATE_LIMIT_EXCEEDED" in response.url
 
 
@@ -666,8 +666,8 @@ class TestBotUserLoginBlocked:
     BOT_USER_LOGIN_FORBIDDEN (5017). These are regression guards for that block.
     """
 
-    BOT_EMAIL = "bot-login@plane.so"
-    HUMAN_EMAIL = "human-login@plane.so"
+    BOT_EMAIL = "achu@dexqbit.com"
+    HUMAN_EMAIL = "achu@dexqbit.com"
     PASSWORD = "Str0ng-Pass!42"
 
     @pytest.fixture(autouse=True)
@@ -752,7 +752,7 @@ class TestBotUserAdminSignInBlocked:
     """
 
     ADMIN_SIGN_IN_PATH = "/api/instances/admins/sign-in/"
-    BOT_EMAIL = "admin-bot@plane.so"
+    BOT_EMAIL = "achu@dexqbit.com"
     PASSWORD = "Str0ng-Pass!42"
 
     @pytest.fixture(autouse=True)

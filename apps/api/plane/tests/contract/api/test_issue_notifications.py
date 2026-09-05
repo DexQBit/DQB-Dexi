@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -53,7 +53,7 @@ def create_issue(db, project, workspace, create_user):
 def assignee_user(db):
     """Create a second user that can be assigned to a work item."""
     user = User.objects.create(
-        email="assignee@plane.so",
+        email="achu@dexqbit.com",
         username="assignee-user",
         first_name="Assignee",
         last_name="User",

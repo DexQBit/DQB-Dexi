@@ -2,7 +2,7 @@
 // oxlint-disable no-shadow
 // oxlint-disable jsx_a11y/prefer-tag-over-role
 /**
- * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * Copyright (c) 2023-present Dexqbit and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  */

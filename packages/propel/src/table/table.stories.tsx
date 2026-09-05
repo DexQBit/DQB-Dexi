@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * Copyright (c) 2023-present Dexqbit and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  */
@@ -33,17 +33,17 @@ export const Default: Story = {
         <TableBody>
           <TableRow>
             <TableCell>John Doe</TableCell>
-            <TableCell>john@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Admin</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Jane Smith</TableCell>
-            <TableCell>jane@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>User</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Bob Wilson</TableCell>
-            <TableCell>bob@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Moderator</TableCell>
           </TableRow>
         </TableBody>
@@ -67,12 +67,12 @@ export const WithCaption: Story = {
         <TableBody>
           <TableRow>
             <TableCell>Alice Johnson</TableCell>
-            <TableCell>alice@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Active</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Charlie Brown</TableCell>
-            <TableCell>charlie@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Inactive</TableCell>
           </TableRow>
         </TableBody>
@@ -141,7 +141,7 @@ export const WithActions: Story = {
         <TableBody>
           <TableRow>
             <TableCell>John Doe</TableCell>
-            <TableCell>john@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Admin</TableCell>
             <TableCell className="text-right">
               <button className="text-blue-500 mr-2 hover:underline">Edit</button>
@@ -150,7 +150,7 @@ export const WithActions: Story = {
           </TableRow>
           <TableRow>
             <TableCell>Jane Smith</TableCell>
-            <TableCell>jane@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>User</TableCell>
             <TableCell className="text-right">
               <button className="text-blue-500 mr-2 hover:underline">Edit</button>
@@ -232,7 +232,7 @@ export const WithCheckboxes: Story = {
               <input type="checkbox" className="h-4 w-4" aria-label="Select row for John Doe" />
             </TableCell>
             <TableCell>John Doe</TableCell>
-            <TableCell>john@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Admin</TableCell>
           </TableRow>
           <TableRow>
@@ -240,7 +240,7 @@ export const WithCheckboxes: Story = {
               <input type="checkbox" className="h-4 w-4" aria-label="Select row for Jane Smith" />
             </TableCell>
             <TableCell>Jane Smith</TableCell>
-            <TableCell>jane@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>User</TableCell>
           </TableRow>
           <TableRow>
@@ -248,7 +248,7 @@ export const WithCheckboxes: Story = {
               <input type="checkbox" className="h-4 w-4" aria-label="Select row for Bob Wilson" />
             </TableCell>
             <TableCell>Bob Wilson</TableCell>
-            <TableCell>bob@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Moderator</TableCell>
           </TableRow>
         </TableBody>
@@ -331,12 +331,12 @@ export const CustomStyling: Story = {
         <TableBody>
           <TableRow className="hover:bg-blue-50">
             <TableCell className="font-semibold">John Doe</TableCell>
-            <TableCell>john@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>Admin</TableCell>
           </TableRow>
           <TableRow className="hover:bg-blue-50">
             <TableCell className="font-semibold">Jane Smith</TableCell>
-            <TableCell>jane@example.com</TableCell>
+            <TableCell>achu@dexqbit.com</TableCell>
             <TableCell>User</TableCell>
           </TableRow>
         </TableBody>
@@ -362,14 +362,14 @@ export const ResponsiveTable: Story = {
           <TableBody>
             <TableRow>
               <TableCell>John Doe</TableCell>
-              <TableCell className="hidden sm:table-cell">john@example.com</TableCell>
+              <TableCell className="hidden sm:table-cell">achu@dexqbit.com</TableCell>
               <TableCell className="hidden md:table-cell">Engineering</TableCell>
               <TableCell className="hidden lg:table-cell">New York</TableCell>
               <TableCell>Active</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Jane Smith</TableCell>
-              <TableCell className="hidden sm:table-cell">jane@example.com</TableCell>
+              <TableCell className="hidden sm:table-cell">achu@dexqbit.com</TableCell>
               <TableCell className="hidden md:table-cell">Marketing</TableCell>
               <TableCell className="hidden lg:table-cell">San Francisco</TableCell>
               <TableCell>Active</TableCell>

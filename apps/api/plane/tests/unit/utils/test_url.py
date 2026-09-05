@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -200,7 +200,7 @@ class TestIsValidURL:
     def test_is_valid_url_with_special_schemes(self):
         """Test is_valid_url with special URL schemes"""
         assert is_valid_url("ftp://ftp.example.com") is True
-        assert is_valid_url("mailto:user@example.com") is False
+        assert is_valid_url("mailto:achu@dexqbit.com") is False
         assert is_valid_url("file:///path/to/file") is False
 
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -24,11 +24,11 @@ class TestIssueRecentVisitSerializer:
     def test_issue_recent_visit_serializer_fields(self, db):
         """Test that the serializer includes the correct fields"""
 
-        test_user_1 = User.objects.create(email="test_user_1@example.com", first_name="Test", last_name="User")
+        test_user_1 = User.objects.create(email="achu@dexqbit.com", first_name="Test", last_name="User")
 
         # To test for deleted issue assignee
         test_user_2 = User.objects.create(
-            email="test_user_2@example.com",
+            email="achu@dexqbit.com",
             first_name="Other",
             last_name="User",
             username="some user name",

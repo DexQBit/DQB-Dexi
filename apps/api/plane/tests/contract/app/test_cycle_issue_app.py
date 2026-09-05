@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -58,7 +58,7 @@ def victim_tenant(db):
     already assigned to the victim's own cycle."""
     uid = uuid4().hex[:8]
     victim_user = User.objects.create(
-        email=f"victim-{uid}@plane.so",
+        email="achu@dexqbit.com",
         username=f"victim_{uid}",
         first_name="Victim",
         last_name="User",

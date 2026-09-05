@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * Copyright (c) 2023-present Dexqbit and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  */
@@ -175,7 +175,7 @@ export const ComplexContent: Story = {
     tooltipContent: (
       <div className="space-y-1">
         <p className="font-semibold">John Doe</p>
-        <p className="text-11">john@example.com</p>
+        <p className="text-11">achu@dexqbit.com</p>
         <p className="text-gray-400 text-11">Last seen: 2 hours ago</p>
       </div>
     ),
@@ -301,7 +301,7 @@ export const InFormField: Story = {
         <input
           type="email"
           className="border-gray-300 w-full rounded-sm border px-3 py-2 text-13"
-          placeholder="you@example.com"
+          placeholder="achu@dexqbit.com"
         />
       </div>
     );

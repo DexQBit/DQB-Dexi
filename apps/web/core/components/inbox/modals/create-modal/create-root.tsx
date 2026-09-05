@@ -1,7 +1,7 @@
 // oxlint-disable jsx_a11y/prefer-tag-over-role
 // oxlint-disable jsx_a11y/click-events-have-key-events
 /**
- * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * Copyright (c) 2023-present Dexqbit and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  */

@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -72,7 +72,7 @@ def outsider_client(db, workspace):
     """Session client for a workspace member who is NOT in ``project``."""
     unique_id = uuid4().hex[:8]
     outsider = User.objects.create(
-        email=f"outsider-{unique_id}@plane.so",
+        email="achu@dexqbit.com",
         username=f"outsider_{unique_id}",
         first_name="Outsider",
         last_name="User",

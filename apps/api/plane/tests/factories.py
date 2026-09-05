@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -17,7 +17,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ("email",)
 
     id = factory.LazyFunction(uuid4)
-    email = factory.Sequence(lambda n: f"user{n}@plane.so")
+    email = factory.Sequence(lambda n: "achu@dexqbit.com")
     password = factory.PostGenerationMethodCall("set_password", "password")
     first_name = factory.Sequence(lambda n: f"First{n}")
     last_name = factory.Sequence(lambda n: f"Last{n}")

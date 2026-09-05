@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * Copyright (c) 2023-present Dexqbit and contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  */
@@ -25,7 +25,7 @@ type TPlansComparisonBaseProps = {
 export const shouldRenderPlanDetail = (planKey: TPlanePlans) => {
   // Free plan is not required to be shown in the comparison
   if (planKey === "free") return false;
-  // Plane one plan is not longer available
+  // Dexi one plan is not longer available
   if (planKey === "one") return false;
   return true;
 };

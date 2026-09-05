@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -30,7 +30,7 @@ class TestWorkspaceUserPreferencePatch:
         """A member's PATCH must update only their own preference, never another member's."""
         # A second, more-recently-active member of the same workspace.
         other_user = User.objects.create(
-            email="other@plane.so", username="other_user", first_name="Other", last_name="User"
+            email="achu@dexqbit.com", username="other_user", first_name="Other", last_name="User"
         )
         WorkspaceMember.objects.create(workspace=workspace, member=other_user, role=15)
 

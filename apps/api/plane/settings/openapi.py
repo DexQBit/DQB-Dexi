@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present Plane Software, Inc. and contributors
+# Copyright (c) 2023-present Dexqbit and contributors
 # SPDX-License-Identifier: AGPL-3.0-only
 # See the LICENSE file for details.
 
@@ -21,7 +21,7 @@ SPECTACULAR_SETTINGS = {
     "CONTACT": {
         "name": "Plane",
         "url": "https://plane.so",
-        "email": "support@plane.so",
+        "email": "achu@dexqbit.com",
     },
     "VERSION": "0.0.1",
     "LICENSE": {

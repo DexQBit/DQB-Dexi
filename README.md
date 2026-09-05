@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://plane.so">
-  <img src="https://media.docs.plane.so/logo/plane_github_readme.png" alt="Plane Logo" width="400">
+  <img src="https://media.docs.plane.so/logo/plane_github_readme.png" alt="Dexi Logo" width="400">
 </a>
 </p>
 <p align="center"><b>Modern project management for all teams</b></p>
@@ -18,25 +18,25 @@
     <a href="https://app.plane.so/#gh-light-mode-only" target="_blank">
       <img
         src="https://media.docs.plane.so/GitHub-readme/github-top.webp"
-        alt="Plane Screens"
+        alt="Dexi Screens"
         width="100%"
       />
     </a>
 </p>
 
-Meet [Plane](https://plane.so/), an open-source project management tool to track issues, run ~sprints~ cycles, and manage product roadmaps without the chaos of managing the tool itself. 🧘‍♀️
+Meet [Dexi](https://plane.so/), an open-source project management tool to track issues, run ~sprints~ cycles, and manage product roadmaps without the chaos of managing the tool itself. 🧘‍♀️
 
-> Plane is evolving every day. Your suggestions, ideas, and reported bugs help us immensely. Do not hesitate to join in the conversation on [Forum](https://forum.plane.so) or raise a GitHub issue. We read everything and respond to most.
+> Dexi is evolving every day. Your suggestions, ideas, and reported bugs help us immensely. Do not hesitate to join in the conversation on [Forum](https://forum.plane.so) or raise a GitHub issue. We read everything and respond to most.
 
 ## 🚀 Installation
 
-Getting started with Plane is simple. Choose the setup that works best for you:
+Getting started with Dexi is simple. Choose the setup that works best for you:
 
-- **Plane Cloud**
-  Sign up for a free account on [Plane Cloud](https://app.plane.so)—it's the fastest way to get up and running without worrying about infrastructure.
+- **Dexi Cloud**
+  Sign up for a free account on [Dexi Cloud](https://app.plane.so)—it's the fastest way to get up and running without worrying about infrastructure.
 
-- **Self-host Plane**
-  Prefer full control over your data and infrastructure? Install and run Plane on your own servers. Follow our detailed [deployment guides](https://developers.plane.so/self-hosting/overview) to get started.
+- **Self-host Dexi**
+  Prefer full control over your data and infrastructure? Install and run Dexi on your own servers. Follow our detailed [deployment guides](https://developers.plane.so/self-hosting/overview) to get started.
 
 | Installation methods | Docs link                                                                                                                                                                               |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -61,10 +61,10 @@ Getting started with Plane is simple. Choose the setup that works best for you:
   Customize your workflow by creating filters to display only the most relevant issues. Save and share these views with ease.
 
 - **Pages**
-  Capture and organize ideas using Plane Pages, complete with AI capabilities and a rich text editor. Format text, insert images, add hyperlinks, or convert your notes into actionable items.
+  Capture and organize ideas using Dexi Pages, complete with AI capabilities and a rich text editor. Format text, insert images, add hyperlinks, or convert your notes into actionable items.
 
 - **Analytics**
-  Access real-time insights across all your Plane data. Visualize trends, remove blockers, and keep your projects moving forward.
+  Access real-time insights across all your Dexi data. Visualize trends, remove blockers, and keep your projects moving forward.
 
 ## 🛠️ Local development
 
@@ -82,7 +82,7 @@ See [CONTRIBUTING](./CONTRIBUTING.md)
     <a href="https://plane.so" target="_blank">
       <img
         src="https://media.docs.plane.so/GitHub-readme/github-work-items.webp"
-        alt="Plane Views"
+        alt="Dexi Views"
         width="100%"
       />
     </a>
@@ -99,7 +99,7 @@ See [CONTRIBUTING](./CONTRIBUTING.md)
     <a href="https://plane.so" target="_blank">
       <img
         src="https://media.docs.plane.so/GitHub-readme/github-modules.webp"
-        alt="Plane Cycles and Modules"
+        alt="Dexi Cycles and Modules"
         width="100%"
       />
     </a>
@@ -108,7 +108,7 @@ See [CONTRIBUTING](./CONTRIBUTING.md)
     <a href="https://plane.so" target="_blank">
       <img
         src="https://media.docs.plane.so/GitHub-readme/github-views.webp"
-        alt="Plane Analytics"
+        alt="Dexi Analytics"
         width="100%"
       />
     </a>
@@ -117,7 +117,7 @@ See [CONTRIBUTING](./CONTRIBUTING.md)
     <a href="https://plane.so" target="_blank">
       <img
         src="https://media.docs.plane.so/GitHub-readme/github-analytics.webp"
-        alt="Plane Pages"
+        alt="Dexi Pages"
         width="100%"
       />
     </a>
@@ -126,34 +126,34 @@ See [CONTRIBUTING](./CONTRIBUTING.md)
 
 ## 📝 Documentation
 
-Explore Plane's [product documentation](https://docs.plane.so/) and [developer documentation](https://developers.plane.so/) to learn about features, setup, and usage.
+Explore Dexi's [product documentation](https://docs.plane.so/) and [developer documentation](https://developers.plane.so/) to learn about features, setup, and usage.
 
 ## ❤️ Community
 
-Join the Plane community on [GitHub Discussions](https://github.com/orgs/makeplane/discussions) and our [Forum](https://forum.plane.so). We follow a [Code of conduct](https://github.com/makeplane/plane/blob/master/CODE_OF_CONDUCT.md) in all our community channels.
+Join the Dexi community on [GitHub Discussions](https://github.com/orgs/makeplane/discussions) and our [Forum](https://forum.plane.so). We follow a [Code of conduct](https://github.com/makeplane/plane/blob/master/CODE_OF_CONDUCT.md) in all our community channels.
 
 Feel free to ask questions, report bugs, participate in discussions, share ideas, request features, or showcase your projects. We’d love to hear from you!
 
 ## 🛡️ Security
 
-If you discover a security vulnerability in Plane, please report it responsibly instead of opening a public issue. We take all legitimate reports seriously and will investigate them promptly. See [Security policy](https://github.com/makeplane/plane/blob/master/SECURITY.md) for more info.
+If you discover a security vulnerability in Dexi, please report it responsibly instead of opening a public issue. We take all legitimate reports seriously and will investigate them promptly. See [Security policy](https://github.com/makeplane/plane/blob/master/SECURITY.md) for more info.
 
-To disclose any security issues, please email us at security@plane.so.
+To disclose any security issues, please email us at achu@dexqbit.com.
 
 ## 🤝 Contributing
 
-There are many ways you can contribute to Plane:
+There are many ways you can contribute to Dexi:
 
 - Report [bugs](https://github.com/makeplane/plane/issues/new?assignees=srinivaspendem%2Cpushya22&labels=%F0%9F%90%9Bbug&projects=&template=--bug-report.yaml&title=%5Bbug%5D%3A+) or submit [feature requests](https://github.com/makeplane/plane/issues/new?assignees=srinivaspendem%2Cpushya22&labels=%E2%9C%A8feature&projects=&template=--feature-request.yaml&title=%5Bfeature%5D%3A+).
 - Review the [documentation](https://docs.plane.so/) and submit [pull requests](https://github.com/makeplane/docs) to improve it—whether it's fixing typos or adding new content.
-- Talk or write about Plane or any other ecosystem integration and [let us know](https://forum.plane.so)!
+- Talk or write about Dexi or any other ecosystem integration and [let us know](https://forum.plane.so)!
 - Show your support by upvoting [popular feature requests](https://github.com/makeplane/plane/issues).
 
 Please read [CONTRIBUTING.md](https://github.com/makeplane/plane/blob/master/CONTRIBUTING.md) for details on the process for submitting pull requests to us.
 
 ### Repo activity
 
-![Plane Repo Activity](https://repobeats.axiom.co/api/embed/2523c6ed2f77c082b7908c33e2ab208981d76c39.svg "Repobeats analytics image")
+![Dexi Repo Activity](https://repobeats.axiom.co/api/embed/2523c6ed2f77c082b7908c33e2ab208981d76c39.svg "Repobeats analytics image")
 
 ### We couldn't have done this without you.
 

@@ -170,7 +170,7 @@
           },
           "company_name": {
             "label": "Назва компанії",
-            "placeholder": "Plane",
+            "placeholder": "Dexi",
             "validation": {
               "required": "Назва компанії обов'язкова",
               "maxLength": "Назва компанії має бути менше 255 символів"
@@ -178,7 +178,7 @@
           },
           "contact_email": {
             "label": "Email підтримки",
-            "placeholder": "help@plane.so",
+            "placeholder": "achu@dexqbit.com",
             "validation": {
               "invalid": "Некоректна email адреса",
               "maxLength": "Email підтримки має бути менше 255 символів"
