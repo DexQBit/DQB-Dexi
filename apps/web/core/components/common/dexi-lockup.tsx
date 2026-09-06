@@ -4,11 +4,15 @@
  * See the LICENSE file for details.
  */
 
-import Link from "next/link";
 import { cn } from "@plane/utils";
-import dexiMark from "@/app/assets/favicon/favicon-32x32.png?url";
+import dexiMark from "@/app/assets/plane-logos/blue-without-text.png?url";
 
-function DexiLockup({ className, height = 20 }: { className?: string; height?: number }) {
+type TDexiLockupProps = {
+  className?: string;
+  height?: number;
+};
+
+export function DexiLockup({ className, height = 20 }: TDexiLockupProps) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)} style={{ height }}>
       <img
@@ -24,15 +28,5 @@ function DexiLockup({ className, height = 20 }: { className?: string; height?: n
         Dexi
       </span>
     </span>
-  );
-}
-
-export function AuthHeader() {
-  return (
-    <div className="sticky top-0 flex w-full flex-shrink-0 items-center justify-between gap-6">
-      <Link href="/">
-        <DexiLockup height={20} />
-      </Link>
-    </div>
   );
 }

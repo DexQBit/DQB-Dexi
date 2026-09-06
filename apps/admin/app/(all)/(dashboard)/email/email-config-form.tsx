@@ -101,7 +101,8 @@ export function InstanceEmailForm(props: IInstanceEmailForm) {
       key: "EMAIL_HOST_PASSWORD",
       type: "password",
       label: "Password",
-      placeholder: "Password",
+      description: "For Gmail/Google Workspace: paste a 16-character App Password, not your login password.",
+      placeholder: "App password or SMTP secret",
       error: Boolean(errors.EMAIL_HOST_PASSWORD),
       required: false,
     },
@@ -197,7 +198,9 @@ export function InstanceEmailForm(props: IInstanceEmailForm) {
               <div className="grow">
                 <div className="text-13 font-medium text-primary">Authentication</div>
                 <div className="text-11 font-regular text-tertiary">
-                  This is optional, but we recommend setting up a username and a password for your SMTP server.
+                  Optional for some relays. For Google Workspace / Gmail, a normal account password is
+                  rejected — use a Google App Password, or leave blank and use SMTP relay
+                  (smtp-relay.gmail.com) after allowing this server in Google Admin.
                 </div>
               </div>
             </div>

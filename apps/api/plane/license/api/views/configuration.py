@@ -75,6 +75,11 @@ def _resolve_smtp_settings(request_data):
     email_use_tls = pick("EMAIL_USE_TLS", stored_tls or "1")
     email_use_ssl = pick("EMAIL_USE_SSL", stored_ssl or "0")
 
+    # Gmail/Google Workspace app passwords are often pasted with spaces; AUTH wants 16 chars.
+    host_l = (email_host or "").lower()
+    if email_host_password and ("gmail.com" in host_l or "google.com" in host_l):
+        email_host_password = "".join(email_host_password.split())
+
     try:
         email_port = int(str(email_port_raw).strip())
     except (TypeError, ValueError) as exc:
@@ -207,9 +212,19 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
             return Response({"error": "Invalid email header."}, status=status.HTTP_400_BAD_REQUEST)
         except SMTPAuthenticationError as exc:
             detail = _smtp_error_detail(exc)
+            host = (request.data.get("EMAIL_HOST") or "").lower()
+            is_google = "gmail.com" in host or "google.com" in host or (detail and "gsmtp" in detail.lower())
+            error = "Invalid credentials provided"
+            if is_google:
+                error = (
+                    "Google rejected these SMTP credentials. "
+                    "A normal Google account password will not work. "
+                    "Use a Google App Password (if enabled), or configure Google Workspace "
+                    "SMTP relay (smtp-relay.gmail.com) and point Host to that relay."
+                )
             return Response(
                 {
-                    "error": "Invalid credentials provided",
+                    "error": error,
                     **({"detail": detail} if detail else {}),
                 },
                 status=status.HTTP_400_BAD_REQUEST,
