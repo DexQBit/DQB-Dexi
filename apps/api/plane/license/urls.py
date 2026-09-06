@@ -18,6 +18,7 @@ from plane.license.api.views import (
     InstanceAdminUserSessionEndpoint,
     InstanceWorkSpaceAvailabilityCheckEndpoint,
     InstanceWorkSpaceEndpoint,
+    OverdueTasksExportEndpoint,
 )
 
 urlpatterns = [
@@ -71,4 +72,9 @@ urlpatterns = [
         name="instance-workspace-availability",
     ),
     path("workspaces/", InstanceWorkSpaceEndpoint.as_view(), name="instance-workspace"),
+    path(
+        "overdue-tasks/export/",
+        OverdueTasksExportEndpoint.as_view(),
+        name="overdue-tasks-export",
+    ),
 ]

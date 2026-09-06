@@ -1,0 +1,12 @@
+name = "dexi-overdue-export"
+main = "src/index.js"
+compatibility_date = "2024-09-01"
+
+# 01:00 UTC daily — change if you need a different timezone offset
+[triggers]
+crons = ["0 1 * * *"]
+
+# Non-secret config (override per env with wrangler.toml / dashboard)
+[vars]
+DEXI_BASE_URL = "https://dexi.dexqbit.com"
+GOOGLE_SHEET_RANGE = "Sheet1!A:M"

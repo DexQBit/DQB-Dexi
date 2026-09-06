@@ -1,0 +1,6 @@
+# Copy to .dev.vars for local `wrangler dev` (never commit .dev.vars)
+OVERDUE_EXPORT_SECRET=replace-with-same-secret-as-dexi
+GOOGLE_SHEET_ID=your-spreadsheet-id
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-sa@project.iam.gserviceaccount.com
+# Paste the full PEM including -----BEGIN PRIVATE KEY----- lines; use \n for newlines in one line if needed
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
