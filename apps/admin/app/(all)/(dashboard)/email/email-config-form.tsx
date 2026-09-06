@@ -147,7 +147,19 @@ export function InstanceEmailForm(props: IInstanceEmailForm) {
   return (
     <div className="space-y-8">
       <div>
-        <SendTestEmailModal isOpen={isSendTestEmailModalOpen} handleClose={() => setIsSendTestEmailModalOpen(false)} />
+        <SendTestEmailModal
+          isOpen={isSendTestEmailModalOpen}
+          handleClose={() => setIsSendTestEmailModalOpen(false)}
+          emailConfig={{
+            EMAIL_HOST: watch("EMAIL_HOST"),
+            EMAIL_PORT: watch("EMAIL_PORT"),
+            EMAIL_HOST_USER: watch("EMAIL_HOST_USER"),
+            EMAIL_HOST_PASSWORD: watch("EMAIL_HOST_PASSWORD"),
+            EMAIL_USE_TLS: watch("EMAIL_USE_TLS"),
+            EMAIL_USE_SSL: watch("EMAIL_USE_SSL"),
+            EMAIL_FROM: watch("EMAIL_FROM"),
+          }}
+        />
         <div className="grid-col grid w-full max-w-4xl grid-cols-1 items-start justify-between gap-10 lg:grid-cols-2">
           {emailFormFields.map((field) => (
             <ControllerInput

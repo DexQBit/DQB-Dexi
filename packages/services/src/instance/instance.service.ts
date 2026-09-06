@@ -119,9 +119,21 @@ export class InstanceService extends APIService {
    * @returns {Promise<void>} Promise resolving to void
    * @throws {Error} If the API request fails
    */
-  async sendTestEmail(receiverEmail: string): Promise<void> {
+  async sendTestEmail(
+    receiverEmail: string,
+    emailConfig?: Partial<{
+      EMAIL_HOST: string;
+      EMAIL_PORT: string;
+      EMAIL_HOST_USER: string;
+      EMAIL_HOST_PASSWORD: string;
+      EMAIL_USE_TLS: string;
+      EMAIL_USE_SSL: string;
+      EMAIL_FROM: string;
+    }>
+  ): Promise<void> {
     return this.post("/api/instances/email-credentials-check/", {
       receiver_email: receiverEmail,
+      ...emailConfig,
     })
       .then((response) => response?.data)
       .catch((error) => {

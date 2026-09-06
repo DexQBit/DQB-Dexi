@@ -9,12 +9,16 @@ import { Dialog, Transition } from "@headlessui/react";
 // plane imports
 import { Button } from "@plane/propel/button";
 import { InstanceService } from "@plane/services";
+import type { TInstanceEmailConfigurationKeys } from "@plane/types";
 // ui
 import { Input } from "@plane/ui";
+
+type TEmailConfigPayload = Partial<Record<TInstanceEmailConfigurationKeys, string>>;
 
 type Props = {
   isOpen: boolean;
   handleClose: () => void;
+  emailConfig?: TEmailConfigPayload;
 };
 
 enum ESendEmailSteps {
@@ -26,7 +30,7 @@ enum ESendEmailSteps {
 const instanceService = new InstanceService();
 
 export function SendTestEmailModal(props: Props) {
-  const { isOpen, handleClose } = props;
+  const { isOpen, handleClose, emailConfig } = props;
 
   // state
   const [receiverEmail, setReceiverEmail] = useState("");
@@ -53,12 +57,13 @@ export function SendTestEmailModal(props: Props) {
 
     setIsLoading(true);
     await instanceService
-      .sendTestEmail(receiverEmail)
+      .sendTestEmail(receiverEmail, emailConfig)
       .then(() => {
         setSendEmailStep(ESendEmailSteps.SUCCESS);
       })
-      .catch((error) => {
-        setError(error?.error || "Failed to send email");
+      .catch((err) => {
+        const message = err?.detail ? `${err?.error || "Failed to send email"}: ${err.detail}` : err?.error || "Failed to send email";
+        setError(message);
         setSendEmailStep(ESendEmailSteps.FAILED);
       })
       .finally(() => {

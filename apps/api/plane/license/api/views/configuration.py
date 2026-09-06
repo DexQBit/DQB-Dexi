@@ -29,6 +29,85 @@ from plane.utils.cache import cache_response, invalidate_cache
 from plane.license.utils.instance_value import get_email_configuration
 
 
+def _smtp_error_detail(exc):
+    detail = getattr(exc, "smtp_error", None) or getattr(exc, "args", None)
+    if isinstance(detail, (list, tuple)) and detail:
+        detail = detail[-1]
+    if isinstance(detail, bytes):
+        detail = detail.decode(errors="replace")
+    return str(detail) if detail else None
+
+
+def _resolve_smtp_settings(request_data):
+    """
+    Merge god-mode form payload with stored instance configuration.
+
+    The test-email UI can run before or without a save; prefer explicit request
+    values when present so credentials the admin just typed are actually used.
+    """
+    (
+        stored_host,
+        stored_user,
+        stored_password,
+        stored_port,
+        stored_tls,
+        stored_ssl,
+        stored_from,
+    ) = get_email_configuration()
+
+    def pick(key, stored, strip=True):
+        if key in request_data and request_data.get(key) is not None:
+            value = request_data.get(key)
+            if value == "" and stored not in (None, ""):
+                # Empty password field means "keep stored secret"
+                if key == "EMAIL_HOST_PASSWORD":
+                    return stored or ""
+            value = "" if value is None else str(value)
+            return value.strip() if strip else value
+        return "" if stored is None else str(stored)
+
+    email_host = pick("EMAIL_HOST", stored_host)
+    email_host_user = pick("EMAIL_HOST_USER", stored_user)
+    # Never strip SMTP passwords — spaces can be significant (e.g. app passwords)
+    email_host_password = pick("EMAIL_HOST_PASSWORD", stored_password, strip=False)
+    email_from = pick("EMAIL_FROM", stored_from)
+    email_port_raw = pick("EMAIL_PORT", stored_port) or "587"
+    email_use_tls = pick("EMAIL_USE_TLS", stored_tls or "1")
+    email_use_ssl = pick("EMAIL_USE_SSL", stored_ssl or "0")
+
+    try:
+        email_port = int(str(email_port_raw).strip())
+    except (TypeError, ValueError) as exc:
+        raise ValueError("EMAIL_PORT must be a number.") from exc
+
+    use_tls = str(email_use_tls) == "1"
+    use_ssl = str(email_use_ssl) == "1"
+
+    # TLS and SSL are mutually exclusive in Django's SMTP backend
+    if use_tls and use_ssl:
+        use_ssl = False
+
+    # Common provider defaults when security mode was left unset / mismatched
+    if email_port == 465 and not use_ssl:
+        use_ssl = True
+        use_tls = False
+    elif email_port == 587 and not use_tls and not use_ssl:
+        use_tls = True
+
+    if not email_host:
+        raise ValueError("EMAIL_HOST is required.")
+
+    return {
+        "host": email_host,
+        "port": email_port,
+        "username": email_host_user or None,
+        "password": email_host_password or None,
+        "use_tls": use_tls,
+        "use_ssl": use_ssl,
+        "from_email": email_from or email_host_user or None,
+    }
+
+
 class InstanceConfigurationEndpoint(BaseAPIView):
     permission_classes = [InstanceAdminPermission]
 
@@ -46,7 +125,10 @@ class InstanceConfigurationEndpoint(BaseAPIView):
         bulk_configurations = []
         for configuration in configurations:
             raw_value = request.data.get(configuration.key, configuration.value)
-            value = "" if raw_value is None else str(raw_value).strip()
+            value = "" if raw_value is None else str(raw_value)
+            # Do not strip encrypted secrets — passwords may include meaningful spaces
+            if not configuration.is_encrypted:
+                value = value.strip()
             if configuration.is_encrypted:
                 configuration.value = encrypt_data(value)
             else:
@@ -94,34 +176,28 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        (
-            EMAIL_HOST,
-            EMAIL_HOST_USER,
-            EMAIL_HOST_PASSWORD,
-            EMAIL_PORT,
-            EMAIL_USE_TLS,
-            EMAIL_USE_SSL,
-            EMAIL_FROM,
-        ) = get_email_configuration()
+        try:
+            smtp = _resolve_smtp_settings(request.data)
+        except ValueError as exc:
+            return Response({"error": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Configure all the connections
         connection = get_connection(
-            host=EMAIL_HOST,
-            port=int(EMAIL_PORT),
-            username=EMAIL_HOST_USER,
-            password=EMAIL_HOST_PASSWORD,
-            use_tls=EMAIL_USE_TLS == "1",
-            use_ssl=EMAIL_USE_SSL == "1",
+            host=smtp["host"],
+            port=smtp["port"],
+            username=smtp["username"],
+            password=smtp["password"],
+            use_tls=smtp["use_tls"],
+            use_ssl=smtp["use_ssl"],
+            timeout=30,
         )
-        # Prepare email details
-        subject = "Email Notification from Plane"
-        message = "This is a sample email notification sent from Plane application."
-        # Send the email
+
+        subject = "Email Notification from Dexi"
+        message = "This is a sample email notification sent from Dexi."
         try:
             msg = EmailMultiAlternatives(
                 subject=subject,
                 body=message,
-                from_email=EMAIL_FROM,
+                from_email=smtp["from_email"],
                 to=[receiver_email],
                 connection=connection,
             )
@@ -129,19 +205,31 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
             return Response({"message": "Email successfully sent."}, status=status.HTTP_200_OK)
         except BadHeaderError:
             return Response({"error": "Invalid email header."}, status=status.HTTP_400_BAD_REQUEST)
-        except SMTPAuthenticationError:
+        except SMTPAuthenticationError as exc:
+            detail = _smtp_error_detail(exc)
             return Response(
-                {"error": "Invalid credentials provided"},
+                {
+                    "error": "Invalid credentials provided",
+                    **({"detail": detail} if detail else {}),
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        except SMTPConnectError:
+        except SMTPConnectError as exc:
+            detail = _smtp_error_detail(exc)
             return Response(
-                {"error": "Could not connect with the SMTP server."},
+                {
+                    "error": "Could not connect with the SMTP server.",
+                    **({"detail": detail} if detail else {}),
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        except SMTPSenderRefused:
+        except SMTPSenderRefused as exc:
+            detail = _smtp_error_detail(exc)
             return Response(
-                {"error": "From address is invalid."},
+                {
+                    "error": "From address is invalid.",
+                    **({"detail": detail} if detail else {}),
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except SMTPServerDisconnected:
@@ -164,8 +252,11 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
                 {"error": "Network connection error. Please check your internet connection."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        except Exception:
+        except Exception as exc:
             return Response(
-                {"error": "Could not send email. Please check your configuration"},
+                {
+                    "error": "Could not send email. Please check your configuration",
+                    "detail": str(exc),
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
